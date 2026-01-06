@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CourierService.Interfaces
-{    public interface IOfferRule
+{    public interface IOffer
     {
         string OfferCode { get; }
         double DiscountPercent { get; }
