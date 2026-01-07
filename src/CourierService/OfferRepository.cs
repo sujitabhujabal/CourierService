@@ -1,4 +1,5 @@
 ﻿using CourierService.Interfaces;
+using CourierService.Offers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,14 @@ namespace CourierService
 {
     public class OfferRepository : IOfferRepository
     {
-        public IEnumerable<IOfferRule> GetOffers()
+        public IEnumerable<IOffer> GetOffers()
         {
-            throw new NotImplementedException();
+            return new List<IOffer>
+            {
+                new OFR001Offer(),
+                new OFR002Offer(),
+                new OFR003Offer()
+            };
         }
     }
 }

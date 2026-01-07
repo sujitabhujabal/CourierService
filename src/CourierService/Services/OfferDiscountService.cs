@@ -11,7 +11,8 @@ namespace CourierService.Services
     public class OfferDiscountService
     {
         private readonly IEnumerable<IOffer> _offers;
-        public OfferDiscountService(IEnumerable<IOffer> offers) {
+        public OfferDiscountService(IEnumerable<IOffer> offers)
+        {
             _offers = offers;
         }
         /// <summary>
@@ -22,7 +23,7 @@ namespace CourierService.Services
         /// <returns></returns>
         public double CalculateDiscount(Package package, double cost)
         {
-            foreach(var offer in _offers)
+            foreach (var offer in _offers)
             {
                 if (package.OfferCode == offer.OfferCode && offer.IsCriteriaSatisfied(package))
                 {
@@ -31,6 +32,19 @@ namespace CourierService.Services
             }
 
             return 0;
+        }
+        public DeliveryCostResult CalculateDeliveryCost(double cost, double weight, double distance, double discount, string packageId)
+        {
+
+            double deliveryCost = cost + (weight * 10) + (distance * 5);
+            double totalCost = deliveryCost - (deliveryCost * discount / 100);
+            DeliveryCostResult deliveryCostResult = new DeliveryCostResult { 
+                 Discount = discount,
+                  PackageId = packageId,
+                TotalCost = totalCost
+
+            };
+            return deliveryCostResult;
         }
 
     }

@@ -8,6 +8,6 @@ namespace CourierService.Interfaces
 {
     public interface IOfferRepository
     {
-        IEnumerable<IOfferRule> GetOffers();
+        IEnumerable<IOffer> GetOffers();
     }
 }

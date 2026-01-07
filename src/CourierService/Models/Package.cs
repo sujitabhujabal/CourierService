@@ -9,8 +9,8 @@ namespace CourierService.Models
     public class Package
     {
         public string Id { get; set; }
-        public decimal Weight { get; set; }
-        public decimal Distance { get; set; }
+        public double Weight { get; set; }
+        public double Distance { get; set; }
         public string OfferCode { get; set; }
     }
 }
