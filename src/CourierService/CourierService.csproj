@@ -43,18 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DeliveryCostResult.cs" />
-    <Compile Include="Interfaces\ICostEstimator.cs" />
-    <Compile Include="Interfaces\IOfferRepository.cs" />
+    <Compile Include="Interfaces\IShipmentScheduler.cs" />
+    <Compile Include="Interfaces\IPlanShipment.cs" />
+    <Compile Include="Models\DeliveryCostResult.cs" />
+    <Compile Include="Models\PackageShipmentResult.cs" />
+    <Compile Include="Models\Shipment.cs" />
+    <Compile Include="Models\Vehicle.cs" />
+    <Compile Include="Repository\IOfferRepository.cs" />
     <Compile Include="Interfaces\IOffer.cs" />
     <Compile Include="Models\Package.cs" />
     <Compile Include="Offer.cs" />
-    <Compile Include="OfferRepository.cs" />
+    <Compile Include="Repository\OfferRepository.cs" />
     <Compile Include="Offers\OFR003Offer.cs" />
     <Compile Include="Offers\OFR002Offer .cs" />
     <Compile Include="Offers\OFR001Offer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DeliveryTimeEstimatorService.cs" />
     <Compile Include="Services\OfferDiscountService.cs" />
   </ItemGroup>
   <ItemGroup>

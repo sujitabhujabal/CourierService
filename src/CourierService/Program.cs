@@ -2,10 +2,6 @@
 using CourierService.Models;
 using CourierService.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CourierService
 {
@@ -61,6 +57,11 @@ namespace CourierService
             }
         }
 
+        /// <summary>
+        /// Validate input datatype
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         private static int ReadInt(string message)
         {
             while (true)
@@ -73,8 +74,12 @@ namespace CourierService
             }
 
         }
-
-        static double ReadDouble(string message)
+        /// <summary>
+        /// Validate input datatype
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private static double ReadDouble(string message)
         {
             while (true)
             {

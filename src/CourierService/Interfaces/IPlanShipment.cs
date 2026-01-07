@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CourierService.Interfaces
-{    public interface ICostEstimator
+{
+    public interface IPlanShipment
     {
-        double Estimate(Package pkg);
+        List<Shipment> PlanShipments(List<Package> packages, Vehicle vehicle);
     }
-
 }
