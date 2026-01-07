@@ -27,20 +27,27 @@ namespace CourierService.Services
             {
                 if (package.OfferCode == offer.OfferCode && offer.IsCriteriaSatisfied(package))
                 {
+                    //Only 1 offer code can be applied 
                     return cost * offer.DiscountPercent / 100;
                 }
             }
 
             return 0;
         }
-        public DeliveryCostResult CalculateDeliveryCost(double cost, double weight, double distance, double discount, string packageId)
+        /// <summary>
+        /// Calculate Delivery Cost by applying offer code
+        /// </summary>
+        /// <param name="package"></param>
+        /// <param name="cost"></param>
+        /// <returns></returns>
+        public DeliveryCostResult CalculateDeliveryCost(Package package, double cost)
         {
-
-            double deliveryCost = cost + (weight * 10) + (distance * 5);
+            double discount = CalculateDiscount(package, cost);
+            double deliveryCost = cost + (package.Weight * 10) + (package.Distance * 5);
             double totalCost = deliveryCost - (deliveryCost * discount / 100);
             DeliveryCostResult deliveryCostResult = new DeliveryCostResult { 
                  Discount = discount,
-                  PackageId = packageId,
+                 PackageId = package.Id,
                 TotalCost = totalCost
 
             };

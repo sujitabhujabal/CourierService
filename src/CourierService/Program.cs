@@ -15,20 +15,24 @@ namespace CourierService
         {
             try
             {
-                Console.WriteLine("Enter base delivery cost ");
-                double baseDeliveryCost = double.Parse(Console.ReadLine());
-                Console.WriteLine("Enter no of packages");
-                int noOfPackages = int.Parse(Console.ReadLine());
+                string exit = "";
+                double baseDeliveryCost = ReadDouble("Enter base delivery cost");
+                double noOfPackages = ReadInt("Enter no of packages");
                 while (true)
-                {
+                { 
+                    if (exit.ToLower() == "exit")
+                    {
+                        break;
+                    }
                     Console.WriteLine("Enter pkg id ");
                     string packageId = Console.ReadLine();
-                    Console.WriteLine("Enter pkg weight ");
-                    double packageWeight = double.Parse(Console.ReadLine());
-                    Console.WriteLine("Enter distance");
-                    double distance = double.Parse(Console.ReadLine());
+
+                    double packageWeight = ReadDouble("Enter pkg weight");
+                    double distance = ReadDouble("Enter distance");
+
                     Console.WriteLine("Enter offer code");
                     string offerCode = Console.ReadLine();
+
                     Package package = new Package
                     {
                         Id = packageId,
@@ -41,16 +45,45 @@ namespace CourierService
                     var offers = offerRepository.GetOffers();
 
                     OfferDiscountService offerDiscountService = new OfferDiscountService(offers);
-                    var discount = offerDiscountService.CalculateDiscount(package, baseDeliveryCost);
-                    var deliveryCost = offerDiscountService.CalculateDeliveryCost(baseDeliveryCost, packageWeight, distance, discount, packageId);
-                    Console.WriteLine($"PackageId: {deliveryCost.PackageId}, Discount: {deliveryCost.Discount}, TotalCost: {deliveryCost.TotalCost}");
+                    var deliveryCostResult = offerDiscountService.CalculateDeliveryCost(package, baseDeliveryCost);
+                    
+                    Console.WriteLine($"{deliveryCostResult.PackageId} {deliveryCostResult.Discount} {deliveryCostResult.TotalCost}");
+                    
+                    Console.WriteLine("Type Exit to stop or press enter key to continue");
+                    exit = Console.ReadLine();
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Please enter valid input");
+                Console.WriteLine("Something went wrong");
+                //Log the exception
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        private static int ReadInt(string message)
+        {
+            while (true)
+            {
+                Console.WriteLine(message);
+                int res;
+                if (int.TryParse(Console.ReadLine(), out res))
+                    return res;
+                Console.WriteLine("Invalid number, please enter again");
             }
 
+        }
+
+        static double ReadDouble(string message)
+        {
+            while (true)
+            {
+                Console.WriteLine(message);
+                double res;
+                if (double.TryParse(Console.ReadLine(), out res))
+                    return res;
+                Console.WriteLine("Invalid number, please enter again");
+            }
         }
     }
 }
