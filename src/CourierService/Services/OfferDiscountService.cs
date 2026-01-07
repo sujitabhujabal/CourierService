@@ -3,6 +3,7 @@ using CourierService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,27 +32,27 @@ namespace CourierService.Services
                     return cost * offer.DiscountPercent / 100;
                 }
             }
-
             return 0;
         }
-        /// <summary>
-        /// Calculate Delivery Cost by applying offer code
-        /// </summary>
-        /// <param name="package"></param>
-        /// <param name="cost"></param>
-        /// <returns></returns>
-        public DeliveryCostResult CalculateDeliveryCost(Package package, double cost)
+        
+        public List<DeliveryCostResult> CalculateDeliveryCost(InputRequestModel inputRequestModel)
         {
-            double discount = CalculateDiscount(package, cost);
-            double deliveryCost = cost + (package.Weight * 10) + (package.Distance * 5);
-            double totalCost = deliveryCost - (deliveryCost * discount / 100);
-            DeliveryCostResult deliveryCostResult = new DeliveryCostResult { 
-                 Discount = discount,
-                 PackageId = package.Id,
-                TotalCost = totalCost
+            List<DeliveryCostResult> deliveryCostResults = new List<DeliveryCostResult>();
+            foreach (var package in inputRequestModel.Packages)
+            {
+                double discount = CalculateDiscount(package, inputRequestModel.BaseDeliveryCost);
+                double deliveryCost = inputRequestModel.BaseDeliveryCost + (package.Weight * 10) + (package.Distance * 5);
+                double totalCost = deliveryCost - (deliveryCost * discount / 100);
+                DeliveryCostResult deliveryCostResult = new DeliveryCostResult
+                {
+                    Discount = discount,
+                    PackageId = package.Id,
+                    TotalCost = totalCost
 
-            };
-            return deliveryCostResult;
+                };
+                deliveryCostResults.Add(deliveryCostResult);
+            }
+            return deliveryCostResults;
         }
 
     }

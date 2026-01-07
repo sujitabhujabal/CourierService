@@ -2,6 +2,8 @@
 using CourierService.Models;
 using CourierService.Services;
 using System;
+using System.Collections.Generic;
+using System.Runtime.Remoting.Services;
 
 namespace CourierService
 {
@@ -12,42 +14,33 @@ namespace CourierService
             try
             {
                 string exit = "";
-                double baseDeliveryCost = ReadDouble("Enter base delivery cost");
-                double noOfPackages = ReadInt("Enter no of packages");
-                while (true)
-                { 
+                List<Package> packages = new List<Package>();
+                var inputRequestModel = GetCostAndNoOfPackges("Enter base delivery cost, No of packages");
+                int pkgCount = 0;
+
+                Console.WriteLine("Enter package details(id weight distance offer_code):");
+                while (pkgCount < inputRequestModel.NoOfPackages)
+                {
+                    pkgCount++;
                     if (exit.ToLower() == "exit")
                     {
                         break;
                     }
-                    Console.WriteLine("Enter pkg id ");
-                    string packageId = Console.ReadLine();
-
-                    double packageWeight = ReadDouble("Enter pkg weight");
-                    double distance = ReadDouble("Enter distance");
-
-                    Console.WriteLine("Enter offer code");
-                    string offerCode = Console.ReadLine();
-
-                    Package package = new Package
-                    {
-                        Id = packageId,
-                        Weight = packageWeight,
-                        OfferCode = offerCode,
-                        Distance = distance
-                    };
-
-                    IOfferRepository offerRepository = new OfferRepository();
-                    var offers = offerRepository.GetOffers();
-
-                    OfferDiscountService offerDiscountService = new OfferDiscountService(offers);
-                    var deliveryCostResult = offerDiscountService.CalculateDeliveryCost(package, baseDeliveryCost);
-                    
-                    Console.WriteLine($"{deliveryCostResult.PackageId} {deliveryCostResult.Discount} {deliveryCostResult.TotalCost}");
-                    
-                    Console.WriteLine("Type Exit to stop or press enter key to continue");
-                    exit = Console.ReadLine();
+                    var packageDetails = InputPackageDetails(inputRequestModel);
                 }
+                inputRequestModel.Packages = inputRequestModel.Packages;
+                IOfferRepository offerRepository = new OfferRepository();
+                var offers = offerRepository.GetOffers();
+
+                OfferDiscountService offerDiscountService = new OfferDiscountService(offers);
+                var deliveryCostResults = offerDiscountService.CalculateDeliveryCost(inputRequestModel);
+
+                foreach (var deliveryCostResult in deliveryCostResults)
+                {
+                    Console.WriteLine($"{deliveryCostResult.PackageId} {deliveryCostResult.Discount} {deliveryCostResult.TotalCost}");
+                }
+                Console.WriteLine("Type Exit to stop or press enter key to continue");
+                exit = Console.ReadLine();
             }
             catch (Exception ex)
             {
@@ -57,37 +50,62 @@ namespace CourierService
             }
         }
 
-        /// <summary>
-        /// Validate input datatype
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        private static int ReadInt(string message)
+        private static InputRequestModel InputPackageDetails(InputRequestModel inputRequestModel)
         {
-            while (true)
+            var input = Console.ReadLine().Split(' ');
+            int noOFInputFields = input.Length;
+            Package package = new Package();
+            //Package Id
+            package.Id = noOFInputFields > 0 ? input[0] : "";
+
+            //Weight
+            if (noOFInputFields > 1 && double.TryParse(input[1], out double weight))
             {
-                Console.WriteLine(message);
-                int res;
-                if (int.TryParse(Console.ReadLine(), out res))
-                    return res;
-                Console.WriteLine("Invalid number, please enter again");
+                package.Weight = weight;
             }
 
+            //distance
+            if (noOFInputFields > 2 && double.TryParse(input[2], out double distance))
+            {
+                package.Distance = distance;
+                //return inputRequestModel;
+            }
+
+            //Offer code
+            package.OfferCode = noOFInputFields > 3 ? input[3] : "";
+            if (package != null)
+            {
+                if (inputRequestModel.Packages == null)
+                {
+                    inputRequestModel.Packages = new List<Package>();
+                }
+                inputRequestModel.Packages.Add(package);
+            }
+            return inputRequestModel;
         }
-        /// <summary>
-        /// Validate input datatype
-        /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        private static double ReadDouble(string message)
+        
+        private static InputRequestModel GetCostAndNoOfPackges(string message)
         {
+            InputRequestModel inputRequestModel = new InputRequestModel();
+
             while (true)
             {
                 Console.WriteLine(message);
-                double res;
-                if (double.TryParse(Console.ReadLine(), out res))
-                    return res;
-                Console.WriteLine("Invalid number, please enter again");
+                var input = Console.ReadLine().Split(' ');
+                int noOFInputFields = input.Length;
+                //Validate base cost
+                if (noOFInputFields > 0 && double.TryParse(input[0], out double res))
+                {
+                    inputRequestModel.BaseDeliveryCost = res;
+                }
+
+                //Validate No of packages
+                if (noOFInputFields > 1 && int.TryParse(input[1], out int noOfPackages))
+                {
+                    inputRequestModel.NoOfPackages = noOfPackages;
+                    return inputRequestModel;
+                }
+                Console.WriteLine("Invalid number/s, Please enter the delivery cost and the number of packages again");
             }
         }
     }

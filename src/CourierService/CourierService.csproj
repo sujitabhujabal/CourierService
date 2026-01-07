@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\IShipmentScheduler.cs" />
     <Compile Include="Interfaces\IPlanShipment.cs" />
     <Compile Include="Models\DeliveryCostResult.cs" />
+    <Compile Include="Models\InputRequestModel.cs" />
     <Compile Include="Models\PackageShipmentResult.cs" />
     <Compile Include="Models\Shipment.cs" />
     <Compile Include="Models\Vehicle.cs" />
