@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8CC95120-7F46-42AA-91EF-2704AEFDEE6F}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>CourierService</RootNamespace>
     <AssemblyName>CourierService</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -46,11 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IShipmentScheduler.cs" />
-    <Compile Include="Interfaces\IPlanShipment.cs" />
     <Compile Include="Models\DeliveryCostResult.cs" />
     <Compile Include="Models\InputRequestModel.cs" />
-    <Compile Include="Models\PackageShipmentResult.cs" />
     <Compile Include="Models\ShipmentInputRequest.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Repository\IOfferRepository.cs" />
