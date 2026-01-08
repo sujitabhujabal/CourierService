@@ -22,11 +22,13 @@ namespace CourierService
                         break;
                     }
                     List<Package> packages = new List<Package>();
-                    var inputRequestModel = GetCostAndNoOfPackges("Enter base delivery cost, No of packages");
+                    var inputRequestModel = GetCostAndNoOfPackges("Enter base delivery cost, No of packages (Example: 100 3)");
+                    
                     int pkgCount = 0;
                     //int vehicleCnt = 0;
 
-                    Console.WriteLine("Enter package details(id weight distance offer_code):");
+                    Console.WriteLine($"Enter {inputRequestModel.NoOfPackages} package details(id weight distance offer_code) (Example: PKG1 50 30 OFR001)");
+                   
                     while (pkgCount < inputRequestModel.NoOfPackages)
                     {
                         pkgCount++;
@@ -37,7 +39,8 @@ namespace CourierService
                         var packageDetails = InputPackageDetails(inputRequestModel);
                     }
 
-                    Console.WriteLine("Enter number of vehicles, speed, total carriable weight");
+                    Console.WriteLine("Enter number of vehicles, speed, total carriable weight (Example: 2 70 200)");
+                    
                     var shipmentInputRequestModel = GetShipmentInputs();
 
                     var vehicles = new List<Vehicle>();
@@ -93,7 +96,7 @@ namespace CourierService
             {
                 Console.WriteLine("Something went wrong");
                 //Log the exception
-                Console.WriteLine(ex.ToString());
+                //Console.WriteLine(ex.ToString());
             }
         }
 
