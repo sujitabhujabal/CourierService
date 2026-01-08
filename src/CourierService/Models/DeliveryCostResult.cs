@@ -11,5 +11,6 @@ namespace CourierService
         public string PackageId { get; set; }
         public double Discount { get; set; }
         public double TotalCost { get; set; }
+        public double DeliveryTime { get; set; }
     }
 }

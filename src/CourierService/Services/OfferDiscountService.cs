@@ -26,10 +26,14 @@ namespace CourierService.Services
         {
             foreach (var offer in _offers)
             {
-                if (package.OfferCode == offer.OfferCode && offer.IsCriteriaSatisfied(package))
+                if (package.OfferCode == offer.OfferCode)
                 {
-                    //Only 1 offer code can be applied 
-                    return cost * offer.DiscountPercent / 100;
+                    if (offer.IsCriteriaSatisfied(package))
+                    {
+                        //Only 1 offer code can be applied 
+                        return cost * offer.DiscountPercent / 100;
+                    }
+                    break;
                 }
             }
             return 0;

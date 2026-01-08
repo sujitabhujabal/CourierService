@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8CC95120-7F46-42AA-91EF-2704AEFDEE6F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>CourierService</RootNamespace>
     <AssemblyName>CourierService</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,7 +51,7 @@
     <Compile Include="Models\DeliveryCostResult.cs" />
     <Compile Include="Models\InputRequestModel.cs" />
     <Compile Include="Models\PackageShipmentResult.cs" />
-    <Compile Include="Models\Shipment.cs" />
+    <Compile Include="Models\ShipmentInputRequest.cs" />
     <Compile Include="Models\Vehicle.cs" />
     <Compile Include="Repository\IOfferRepository.cs" />
     <Compile Include="Interfaces\IOffer.cs" />

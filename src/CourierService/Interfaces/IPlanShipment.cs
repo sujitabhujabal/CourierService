@@ -9,6 +9,6 @@ namespace CourierService.Interfaces
 {
     public interface IPlanShipment
     {
-        List<Shipment> PlanShipments(List<Package> packages, Vehicle vehicle);
+        List<ShipmentInputRequest> PlanShipments(List<Package> packages, Vehicle vehicle);
     }
 }
